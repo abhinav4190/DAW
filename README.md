@@ -1,7 +1,7 @@
 # Run Locally on MacOS ARM
 
 ```
-# Download and build the source code
+# Downloa and build the source code
 git clone --recursive https://github.com/abhinav4190/DAW.git
 cd stargate/src
 ./macos/homebrew_deps.sh
