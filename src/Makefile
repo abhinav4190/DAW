@@ -16,6 +16,8 @@ DOCKER ?= podman
 DOCKER_IMAGE ?= stargate-appimage-builder
 MINGW_PREFIX ?= /mingw64
 NUITKA_PYQT ?= pyqt5
+LDFLAGS += $(shell pkg-config --libs sndfile fftw3)
+CFLAGS += $(shell pkg-config --cflags sndfile fftw3) -O3 -Wall -Wno-enum-compare -mcpu=apple-m1
 
 # --------------------------------------------------------------
 
@@ -126,7 +128,9 @@ macos: commit_hash soundtouch sbsms
 	./macos/link.py
 
 macos_arm: commit_hash soundtouch
-	PLAT_FLAGS= CFLAGS+="-I/opt/homebrew/include" make sbsms
+	ARCH=$(shell uname -m) \
+	PLAT_FLAGS= CFLAGS+="-I/opt/homebrew/include"
+	make sbsms
 	make -C engine macos_arm
 	# No idea why cp breaks this file, it makes no sense
 	mv vendor/sbsms/cli/sbsms engine/
@@ -236,6 +240,7 @@ soundtouch:
 	cd vendor/soundtouch && \
 		$(CXX) -std=c++11 -Iinclude/ -O3 \
 		`find source/SoundTouch source/SoundStretch -name '*.cpp'` \
+		-L/opt/homebrew/lib -lsndfile \
 		-o ../stargate-soundstretch
 
 tag_release:

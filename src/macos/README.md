@@ -1,4 +1,4 @@
-# Description
+# 
 This document describes the process for building on Mac OS X.
 
 # Procedure

@@ -9,7 +9,7 @@ CFLAGS ?=
 CC_ARGS ?= -Wall
 PROD_FLAGS ?= -O3 -fomit-frame-pointer
 # These assume a modern x86 CPU, change or remove for other platforms
-PLAT_FLAGS ?= -mfpmath=sse -mssse3 -mtune=generic -mstackrealign
+PLAT_FLAGS  ?= -mcpu=apple-m1
 LIBEXT ?= so
 
 INC = -Iinclude -Ilibcds/include
@@ -46,6 +46,10 @@ LINK_FLAGS  ?= \
 	-lpthread $(PORTMIDI_FLAG) -lportaudio $(LDFLAGS) \
 	$(shell pkg-config --libs sndfile fftw3f fftw3) $(MATH_LIB_FLAG) \
 	$(PLAT_LINK_CFLAGS)
+
+LDFLAGS += -L/opt/homebrew/lib -lsndfile -lfftw3 -lportmidi -lportaudio
+CFLAGS += -I/opt/homebrew/include -O3 -Wall -Wno-enum-compare -mcpu=apple-m1
+
 
 MINGW_LINK_FLAGS ?= \
 	-I/mingw64/include -lpthread $(PORTMIDI_FLAG) -lportaudio $(LDFLAGS) \
