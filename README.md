@@ -13,8 +13,11 @@ make macos_arm
 python3 ./scripts/stargate
 
 Now you will see the application will open.
+```
 
-Note that you may need to disable the Mac OS X firewall (if enabled) or
+# Note
+
+You may need to disable the Mac OS X firewall (if enabled) or
 add rules, as it may block the Stargate UI and engine from communicating over
 UDP sockets on localhost.  You will need the following rules:
 ```
